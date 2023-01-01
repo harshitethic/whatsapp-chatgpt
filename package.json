@@ -1,7 +1,7 @@
 {
-  "name": "Wa-OpenAI",
-  "version": "1.2.4",
-  "description": "WhatsApp Bot OpenAI Using Lib Baileys Multi Device",
+  "name": "Whatsapp-chatgpt",
+  "version": "1",
+  "description": "WHATSAPP CHATGPT BOT, USING OPENAI",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
@@ -18,8 +18,8 @@
     "bot-md",
     "whatsapp-multi-device"
   ],
-  "base": "https://github.com/DikaArdnt/Hisoka-Morou",
-  "author": "Yusril",
+  "base": "https://github.com/harshitethic",
+  "author": "harshitethic",
   "license": "MIT",
   "dependencies": {
     "@adiwajshing/baileys": "4.4.0",
@@ -41,10 +41,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sansekai/Wa-OpenAI.git"
+    "url": "git+https://github.com/harshitethic/whatsapp-chatgpt.git"
   },
   "bugs": {
-    "url": "https://github.com/Sansekai/Wa-OpenAI/issues"
+    "url": "https://github.com/harshitethic/whatsapp-chatgpt/issues"
   },
-  "homepage": "https://github.com/Sansekai/Wa-OpenAI#readme"
+  "homepage": "https://github.com/harshitethic/whatsapp-chatgpt#readme"
 }
