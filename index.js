@@ -1,8 +1,8 @@
 require("http").createServer((_, res) => res.end("Berjalan coy")).listen(8080)
 
-const sessionName = 'yusril'
-const donet = 'https://saweria.co/sansekai'
-const owner = ['6287878817169']
+const sessionName = 'harshitethic'
+const donet = 'https://harshitethic.in'
+const owner = ['917905171412']
 const { default: sansekaiConnect, useSingleFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, proto, getContentType } = require("@adiwajshing/baileys")
 const { state, saveState } = useSingleFileAuthState(`./${sessionName}.json`)
 const pino = require('pino')
@@ -228,7 +228,7 @@ async function startHisoka() {
             else if (reason === DisconnectReason.connectionClosed) { console.log("Connection closed, reconnecting...."); startHisoka(); } 
             else if (reason === DisconnectReason.connectionLost) { console.log("Connection Lost from Server, reconnecting..."); startHisoka(); }
             else if (reason === DisconnectReason.connectionReplaced) { console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First"); process.exit(); }
-            else if (reason === DisconnectReason.loggedOut) { console.log(`Device Logged Out, Please Delete Session file yusril.json and Scan Again.`); process.exit(); }
+            else if (reason === DisconnectReason.loggedOut) { console.log(`Device Logged Out, Please Delete Session file harshitethic.json and Scan Again.`); process.exit(); }
             else if (reason === DisconnectReason.restartRequired) { console.log("Restart Required, Restarting..."); startHisoka(); }
             else if (reason === DisconnectReason.timedOut) { console.log("Connection TimedOut, Reconnecting..."); startHisoka(); }
             else { console.log(`Unknown DisconnectReason: ${reason}|${connection}`); startHisoka(); }
