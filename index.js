@@ -234,7 +234,7 @@ async function startHisoka() {
             else { console.log(`Unknown DisconnectReason: ${reason}|${connection}`); startHisoka(); }
         } else if(connection === 'open') {
             console.log('Bot conneted to server')
-            client.sendMessage(owner+'@s.whatsapp.net', { text: `Bot started!\n\njangan lupa support ya bang :)\n${donet}` })
+            client.sendMessage(owner+'@s.whatsapp.net', { text: `Bot started!\n\nVisit me Down!\n${donet}` })
         }
         // console.log('Connected...', update)
     })
