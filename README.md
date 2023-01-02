@@ -8,5 +8,5 @@ $ node index.js <br>
 
 Visit: https://harshitethic.in <br>
 
-#How to get OpenAI API?
+# How to get OpenAI API?
 Visit: https://beta.openai.com/account/api-keys
