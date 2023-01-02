@@ -121,7 +121,7 @@ function smsg(conn, m, store) {
 async function startHisoka() {
     const { version, isLatest } = await fetchLatestBaileysVersion()
 	console.log(`using WA v${version.join('.')}, isLatest: ${isLatest}`)
-    console.log(color(figlet.textSync('Wa-OpenAI', {
+    console.log(color(figlet.textSync('HarshitEthic', {
 		font: 'Standard',
 		horizontalLayout: 'default',
 		vertivalLayout: 'default',
@@ -131,7 +131,7 @@ async function startHisoka() {
     const client = sansekaiConnect({
         logger: pino({ level: 'silent' }),
         printQRInTerminal: true,
-        browser: ['Wa-OpenAI - Sansekai','Safari','3.0'],
+        browser: ['WhatsappGPT - Harshitethic','Safari','3.0'],
         auth: state
     })
 
