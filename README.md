@@ -5,7 +5,7 @@ NOTE: DON'T MESS UP WITH INDEX.JS FILE. <br>
 
 # How to Install? 
 $ git clone https://github.com/harshitethic/whatsapp-chatgpt <br>
-$ cd Whatsapp-chatgpt <br>
+$ cd whatsapp-chatgpt <br>
 $ npm install <br>
 $ node index.js <br>
 
