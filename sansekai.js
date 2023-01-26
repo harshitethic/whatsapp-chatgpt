@@ -4,6 +4,7 @@ const util = require('util')
 const chalk = require('chalk')
 const { Configuration, OpenAIApi } = require("openai")
 let setting = require('./key.json')
+const BOT_NAME =process.env.BOT_NAME ?? "ᴅᴀɴɪᴇʟ-ʙᴏᴛ®"
 
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
     try {
@@ -29,7 +30,16 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         const color = (text, color) => {
             return !color ? chalk.green(text) : chalk.keyword(color)(text)
         }
-	
+let prompt_template = 
+"Hola Soy Una AI Bot" +
+BOT_NAME +
+"ɪᴍᴘᴜʟꜱᴀᴅᴏ ʙʏ ᴅᴀɴɪᴇʟ-ʙᴏᴛ®. \n human: ¿Cómo estás? \n"
+BOT_NAME +
+"Yo bien, ¿cómo puedo ayudarte? \n Human:" +
+budy +
+"\n" +
+BOT_NAME +
+":";
         // Group
         const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch(e => {}) : ''
         const groupName = m.isGroup ? groupMetadata.subject : ''
@@ -65,7 +75,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
             
             const response = await openai.createCompletion({
               model: "text-davinci-003",
-              prompt: budy,
+              prompt: prompt_template,
               temperature: 0.3,
               max_tokens: 3000,
               top_p: 1.0,
