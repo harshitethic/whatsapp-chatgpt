@@ -111,62 +111,83 @@ if (setting.autoAI) {
         }
     }
 }
-    if (!setting.autoAI) {
-        if (isCmd2) {
-            switch(command) { 
-                case 'ai':
-                    try {
-                        if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Api key has not been filled in\n\nPlease fill in the apikey first in the key.json file\n\nThe apikey can be created in website: https://beta.openai.com/account/api-keys')
-                        if (!text) return reply(`Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`)
-                        const configuration = new Configuration({
-                            apiKey: setting.keyopenai,
-                        });
-                        const openai = new OpenAIApi(configuration);
+    // Check if the autoAI setting is turned off
+if (!setting.autoAI) {
+    // Check if isCmd2 is true
+    if (isCmd2) {
+        // Switch statement to handle different cases of the command variable
+        switch(command) { 
+            // Case 'ai'
+            case 'ai':
+                try {
+                    // Check if the API key is filled in
+                    if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') 
+                        // If not, return a message instructing to fill in the API key
+                        return reply('Api key has not been filled in\n\nPlease fill in the apikey first in the key.json file\n\nThe apikey can be created in website: https://beta.openai.com/account/api-keys')
+                    // Check if text is missing
+                    if (!text) 
+                        // If so, return a message with usage instructions
+                        return reply(`Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`)
                     
-                        const response = await openai.createCompletion({
-                            model: "text-davinci-003",
-                            prompt: text,
-                            temperature: 0.3,
-                            max_tokens: 3000,
-                            top_p: 1.0,
-                            frequency_penalty: 0.0,
-                            presence_penalty: 0.0,
-                        });
-                        m.reply(`${response.data.choices[0].text}\n\n`)
-                    } catch (err) {
-                        console.log(err)
-                        m.reply('Sorry, there seems to be an error')
-                    }
-                    break
-                default:{
-                
-                    if (isCmd2 && budy.toLowerCase() != undefined) {
-                        if (m.chat.endsWith('broadcast')) return
-                        if (m.isBaileys) return
-                        if (!(budy.toLowerCase())) return
-                        if (argsLog || isCmd2 && !m.isGroup) {
-                            // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                            console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
-                            } else if (argsLog || isCmd2 && m.isGroup) {
-                            // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                            console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
-                            }
-                    }
+                    // Create a Configuration object with the API key
+                    const configuration = new Configuration({
+                        apiKey: setting.keyopenai,
+                    });
+                    // Create an instance of OpenAIApi with the Configuration object
+                    const openai = new OpenAIApi(configuration);
+                    
+                    // Make a request to the OpenAI API to generate a response to the text
+                    const response = await openai.createCompletion({
+                        model: "text-davinci-003",
+                        prompt: text,
+                        temperature: 0.3,
+                        max_tokens: 3000,
+                        top_p: 1.0,
+                        frequency_penalty: 0.0,
+                        presence_penalty: 0.0,
+                    });
+                    
+                    // Reply with the generated response
+                    m.reply(`${response.data.choices[0].text}\n\n`)
+                } catch (err) {
+                    // Log the error to the console
+                    console.log(err)
+                    // Reply with an error message
+                    m.reply('Sorry, there seems to be an error')
                 }
-            }
-        }
+                break
+           // default case for the switch statement
+default:{
+  // Check if the second argument exists and is not undefined
+  if (isCmd2 && budy.toLowerCase() != undefined) {
+    // Check if the message ends with 'broadcast' or is from a user named 'Baileys'
+    // If either condition is met, return without executing further code
+    if (m.chat.endsWith('broadcast')) return
+    if (m.isBaileys) return
+    // Check if the lowercase version of the second argument exists
+    // If it doesn't, return without executing further code
+    if (!(budy.toLowerCase())) return
+    // Check if the first argument is not empty or if the message is not from a group
+    // If either condition is met, log an error message indicating the command is unavailable
+    if (argsLog || isCmd2 && !m.isGroup) {
+      console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
+    // If the message is from a group, log an error message indicating the command is unavailable
+    } else if (argsLog || isCmd2 && m.isGroup) {
+      console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
     }
-        
-    } catch (err) {
-        m.reply(util.format(err))
-    }
+  }
 }
 
+// Catch any errors and reply with the error message
+} catch (err) {
+  m.reply(util.format(err))
+}
 
+// Monitor the current file for changes and reload the code if it is updated
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {
-	fs.unwatchFile(file)
-	console.log(chalk.redBright(`Update ${__filename}`))
-	delete require.cache[file]
-	require(file)
+  fs.unwatchFile(file)
+  console.log(chalk.redBright(`Update ${__filename}`))
+  delete require.cache[file]
+  require(file)
 })
