@@ -11,6 +11,8 @@ $ cd whatsapp-chatgpt <br>
 $ npm install <br>
 $ node index.js <br>
 
+<br> NOTE: SETUP KEYS IN accesser.json
+
 
 Visit: https://harshitethic.in <br>
 
