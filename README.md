@@ -9,6 +9,8 @@ $ cd whatsapp-chatgpt <br>
 $ npm install <br>
 $ node index.js <br>
 
+<b>Join telegram</b> : https://t.me/harshitethicteam <br>
+
 Visit: https://harshitethic.in <br>
 
 # How to get OpenAI API?
