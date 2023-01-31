@@ -54,32 +54,31 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                 }
         }
 
-    if (setting.autoAI) {
-        if (budy) {
-            try {
-            if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey belum diisi\n\nSilahkan isi terlebih dahulu apikeynya di file key.json\n\nApikeynya bisa dibuat di website: https://beta.openai.com/account/api-keys')
-            const configuration = new Configuration({
-              apiKey: setting.keyopenai, 
-            });
-            const openai = new OpenAIApi(configuration);
+    if (setting. autoAI) {
+         if (buy) {
+             try {
+             if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey has not been filled\n\nPlease fill in the apikey first in the key.json file\n\nApikey can be made on the website: https://beta.openai.com /account/api-keys')
+             const configuration = new Configuration({
+               apiKey: setting. keyopenai,
+             });
+             const openai = new OpenAIApi(configuration);
             
-            const response = await openai.createCompletion({
-              model: "text-davinci-003",
-              prompt: budy,
-              temperature: 0.3,
-              max_tokens: 3000,
-              top_p: 1.0,
-              frequency_penalty: 0.0,
-              presence_penalty: 0.0,
-            });
-            m.reply(`${response.data.choices[0].text}\n\n`)
-            } catch(err) {
-                console.log(err)
-                m.reply('Maaf, sepertinya ada yang error')
-            }
-        }
-    }
-
+             const response = await openai. createCompletion({
+               model: "text-davinci-003",
+               prompt: budy,
+               temperature: 0.3,
+               max_tokens: 3000,
+               top_p: 1.0,
+               frequency_penalty: 0.0,
+               presence_penalty: 0.0,
+             });
+             m.reply(`${response.data.choices[0].text}\n\n`)
+             } catch(err) {
+                 console. log(err)
+                 m.reply('Sorry, there seems to be an error')
+             }
+         }
+     }
     if (!setting.autoAI) {
         if (isCmd2) {
             switch(command) { 
@@ -104,7 +103,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                         m.reply(`${response.data.choices[0].text}\n\n`)
                     } catch (err) {
                         console.log(err)
-                        m.reply('Maaf, sepertinya ada yang error')
+                        m.reply('Sorry, there seems to be an error')
                     }
                     break
                 default:{
