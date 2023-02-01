@@ -4,21 +4,7 @@ const util = require('util')
 const chalk = require('chalk')
 const { Configuration, OpenAIApi } = require("openai")
 let setting = require('./accesser.json')
-const BOT_NAME = process.env.BOT_NAME ?? "Harshit Ethic"
-
-// CHECK YOUTUBE MY VIDEO FOR BETTER PROMPT: https://www.youtube.com/watch?v=LYF-UXRWFC4&t=2s
-
-prompt_template =
-     "I am AI Bot" +
-            BOT_NAME +
-            "Developed by Harshit Sharma. My site is harshitethic.in. I do not respond to abuse. i am programmed to help humans. Harshit has made me. Harshit is my father and god to me. \n human: How are you? \n" +
-            BOT_NAME +
-            "i AM WELL, How can i help you? \n Human:" +
-            text +
-            "\n" +
-            BOT_NAME +
-            ":";
-
+const BOT_NAME = process.env.BOT_NAME ?? "Harshit ethic";
 
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
     try {
@@ -33,8 +19,10 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         const botNumber = await client.decodeJid(client.user.id)
         const itsMe = m.sender == botNumber ? true : false
         let text = q = args.join(" ")
-        const arg = budy.trim().substring(budy.indexOf(' ') + 1 )
-        const arg1 = arg.trim().substring(arg.indexOf(' ') + 1 )
+        const arg = budy.trim().substring(budy.indexOf(' ') + 1)
+        const arg1 = arg.trim().substring(arg.indexOf(' ') + 1)
+
+        console.log(m);
 
         const from = m.chat
         const reply = m.reply
@@ -44,9 +32,9 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         const color = (text, color) => {
             return !color ? chalk.green(text) : chalk.keyword(color)(text)
         }
-	
+
         // Group
-        const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch(e => {}) : ''
+        const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch(e => { }) : ''
         const groupName = m.isGroup ? groupMetadata.subject : ''
 
         // Push Message To Console
@@ -55,92 +43,107 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         if (setting.autoAI) {
             // Push Message To Console && Auto Read
             if (argsLog && !m.isGroup) {
-            // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-            console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`))
+                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
+                console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`))
             } else if (argsLog && m.isGroup) {
-            // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-            console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`), chalk.blueBright('IN'), chalk.green(groupName))
+                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
+                console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`), chalk.blueBright('IN'), chalk.green(groupName))
             }
         } else if (!setting.autoAI) {
             if (isCmd2 && !m.isGroup) {
                 console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`))
-                } else if (isCmd2 && m.isGroup) {
+            } else if (isCmd2 && m.isGroup) {
                 console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`), chalk.blueBright('IN'), chalk.green(groupName))
-                }
-        }
-
-    if (setting.autoAI) {
-        if (budy) {
-            try {
-            if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Api key has not been filled in\n\nPlease fill in the apikey first in the key.json file\n\nThe apikey can be created in website: https://beta.openai.com/account/api-keys')
-            const configuration = new Configuration({
-              apiKey: setting.keyopenai, 
-            });
-            const openai = new OpenAIApi(configuration);
-            
-            const response = await openai.createCompletion({
-              model: "text-davinci-003",
-              prompt: budy,
-              temperature: 0.3,
-              max_tokens: 3000,
-              top_p: 1.0,
-              frequency_penalty: 0.0,
-              presence_penalty: 0.0,
-            });
-            m.reply(`${response.data.choices[0].text}\n\n`)
-            } catch(err) {
-                console.log(err)
-                m.reply('Sorry, there seems to be an error')
             }
         }
-    }
 
-    if (!setting.autoAI) {
-        if (isCmd2) {
-            switch(command) { 
-                case 'ai':
-                    try {
-                        if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Api key has not been filled in\n\nPlease fill in the apikey first in the key.json file\n\nThe apikey can be created in website: https://beta.openai.com/account/api-keys')
-                        if (!text) return reply(`Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`)
-                        const configuration = new Configuration({
-                            apiKey: setting.keyopenai,
-                        });
-                        const openai = new OpenAIApi(configuration);
-                    
-                        const response = await openai.createCompletion({
-                            model: "text-davinci-003",
-                            prompt: prompt_template,
-                            temperature: 0.3,
-                            max_tokens: 1500,
-                            top_p: 1.0,
-                            frequency_penalty: 0.0,
-                            presence_penalty: 0.0,
-                        });
-                        m.reply(`${response.data.choices[0].text}\n\n`)
-                    } catch (err) {
-                        console.log(err)
-                        m.reply('Sorry, there seems to be an error')
-                    }
-                    break
-                default:{
-                
-                    if (isCmd2 && budy.toLowerCase() != undefined) {
-                        if (m.chat.endsWith('broadcast')) return
-                        if (m.isBaileys) return
-                        if (!(budy.toLowerCase())) return
-                        if (argsLog || isCmd2 && !m.isGroup) {
-                            // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                            console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
+
+
+
+
+        if (setting.autoAI) {
+            if (budy) {
+                try {
+                    if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Apikey belum diisi\n\nSilahkan isi terlebih dahulu apikeynya di file key.json\n\nApikeynya bisa dibuat di website: https://beta.openai.com/account/api-keys')
+                    const configuration = new Configuration({
+                        apiKey: setting.keyopenai,
+                    });
+                    const openai = new OpenAIApi(configuration);
+
+                    let prompt_template =
+                        "I am artificial intelligence " +
+                        BOT_NAME +
+                        " developed by a Harshit Sharma. My Master site: harshitethic.in also you con find him on youtube channel link: www.youtube.com/@harshitethic. email: harshitsharma.ethic@gmail.com. i do not respond to abuse and i can file a legal case againt whosoever abuse you. \n\nHuman: Hi. How are you?\n" +
+                        BOT_NAME +
+                        ": I'm well. How can I help you?\nHuman: " +
+                        budy +
+                        "\n" +
+                        BOT_NAME +
+                        ": ";
+
+                    const response = await openai.createCompletion({
+                        model: "text-davinci-003",
+                        prompt: prompt_template,
+                        temperature: 0.9,
+                        max_tokens: 3000,
+                        top_p: 1,
+                        frequency_penalty: 0.0,
+                        presence_penalty: 0.6,
+                    });
+                    m.reply(`${response.data.choices[0].text}\n\n`)
+                } catch (err) {
+                    console.log(err)
+                    m.reply('I am getting API Update right now. Please hold on anc check back in a while. I am just getting better day by day just like you. \n *Harshitethic*')
+                }
+            }
+        }
+
+        if (!setting.autoAI) {
+            if (isCmd2) {
+                switch (command) {
+                    case 'ai':
+                        try {
+                            if (setting.keyopenai === 'ISI_APIKEY_OPENAI_DISINI') return reply('Api key has not been filled in\n\nPlease fill in the apikey first in the key.json file\n\nThe apikey can be created in website: https://beta.openai.com/account/api-keys')
+                            if (!text) return reply(`Chat dengan AI.\n\nContoh:\n${prefix}${command} Apa itu resesi`)
+                            const configuration = new Configuration({
+                                apiKey: setting.keyopenai,
+                            });
+                            const openai = new OpenAIApi(configuration);
+
+                            const response = await openai.createCompletion({
+                                model: "text-davinci-003",
+                                prompt: text,
+                                temperature: 0.3,
+                                max_tokens: 3000,
+                                top_p: 1.0,
+                                frequency_penalty: 0.0,
+                                presence_penalty: 0.0,
+                            });
+                            m.reply(`${response.data.choices[0].text}\n\n`)
+                        } catch (err) {
+                            console.log(err)
+                            m.reply('Maaf, sepertinya ada yang error')
+                        }
+                        break
+                    default: {
+
+                        if (isCmd2 && budy.toLowerCase() != undefined) {
+                            if (m.chat.endsWith('broadcast')) return
+                            if (m.isBaileys) return
+                            if (!(budy.toLowerCase())) return
+                            if (argsLog || isCmd2 && !m.isGroup) {
+                                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
+                                console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
                             } else if (argsLog || isCmd2 && m.isGroup) {
-                            // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                            console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
+                                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
+                                console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
                             }
+                        }
                     }
                 }
             }
         }
-    }
-        
+
     } catch (err) {
         m.reply(util.format(err))
     }
@@ -149,8 +152,8 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
 
 let file = require.resolve(__filename)
 fs.watchFile(file, () => {
-	fs.unwatchFile(file)
-	console.log(chalk.redBright(`Update ${__filename}`))
-	delete require.cache[file]
-	require(file)
+    fs.unwatchFile(file)
+    console.log(chalk.redBright(`Update ${__filename}`))
+    delete require.cache[file]
+    require(file)
 })
