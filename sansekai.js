@@ -73,7 +73,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                     let prompt_template =
                         "I am artificial intelligence " +
                         BOT_NAME +
-                        " developed by a Harshit Sharma. My Master site: harshitethic.in also you con find him on youtube channel link: www.youtube.com/@harshitethic. email: harshitsharma.ethic@gmail.com. i do not respond to abuse and i can file a legal case againt whosoever abuse you. \n\nHuman: Hi. How are you?\n" +
+                        " developed by a Harshit Sharma.\n\nHuman: Hi. How are you?\n" +
                         BOT_NAME +
                         ": I'm well. How can I help you?\nHuman: " +
                         budy +
@@ -93,7 +93,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                     m.reply(`${response.data.choices[0].text}\n\n`)
                 } catch (err) {
                     console.log(err)
-                    m.reply('I am getting API Update right now. Please hold on anc check back in a while. I am just getting better day by day just like you. \n *Harshitethic*')
+                    m.reply('I am getting API Update right now. Please hold on anc check back in a while.')
                 }
             }
         }
