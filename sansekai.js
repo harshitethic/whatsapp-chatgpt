@@ -93,7 +93,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                     m.reply(`${response.data.choices[0].text}\n\n`)
                 } catch (err) {
                     console.log(err)
-                    m.reply('I am getting API Update right now. Please hold on anc check back in a while.')
+                    m.reply('I am getting API Update right now. Please hold on and check back in a while.')
                 }
             }
         }
