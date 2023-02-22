@@ -4,7 +4,7 @@ const util = require('util')
 const chalk = require('chalk')
 const { Configuration, OpenAIApi } = require("openai")
 let setting = require('./accesser.json')
-const BOT_NAME = process.env.BOT_NAME ?? "ᴅᴀɴɪᴇʟ-ᴀɪ®";
+const BOT_NAME = process.env.BOT_NAME ?? "Daniel";
 
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
     try {
