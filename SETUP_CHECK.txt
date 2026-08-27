@@ -1,0 +1,3 @@
+Before running the bot, set the OpenAI API key in accesser.json locally. The repository does not contain a real key.
+
+Run `npm test` to verify the placeholder configuration is aligned with the runtime check.
