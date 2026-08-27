@@ -1,4 +1,4 @@
 {
-	"keyopenai": "ENTER YOUR API KEY HERE",
-	"autoAI": true
+  "keyopenai": "ISI_APIKEY_OPENAI_DISINI",
+  "autoAI": true
 }
