@@ -1,9 +1,9 @@
 const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('@adiwajshing/baileys')
 const fs = require('fs')
-const util = require('util')
 const chalk = require('chalk')
 const { Configuration, OpenAIApi } = require("openai")
 const setting = require('./config')
+const { replyAiError, logBotActivity } = require('./privacy')
 const BOT_NAME = process.env.BOT_NAME ?? "Harshit ethic";
 
 module.exports = sansekai = async (client, m, chatUpdate, store) => {
@@ -22,44 +22,15 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
         const arg = budy.trim().substring(budy.indexOf(' ') + 1)
         const arg1 = arg.trim().substring(arg.indexOf(' ') + 1)
 
-        console.log(m);
 
         const from = m.chat
         const reply = m.reply
         const sender = m.sender
         const mek = chatUpdate.messages[0]
 
-        const color = (text, color) => {
-            return !color ? chalk.green(text) : chalk.keyword(color)(text)
-        }
-
-        // Group
-        const groupMetadata = m.isGroup ? await client.groupMetadata(m.chat).catch(e => { }) : ''
-        const groupName = m.isGroup ? groupMetadata.subject : ''
-
-        // Push Message To Console
-        let argsLog = (budy.length > 30) ? `${q.substring(0, 30)}...` : budy
-
-        if (setting.autoAI) {
-            // Push Message To Console && Auto Read
-            if (argsLog && !m.isGroup) {
-                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`))
-            } else if (argsLog && m.isGroup) {
-                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`), chalk.blueBright('IN'), chalk.green(groupName))
-            }
-        } else if (!setting.autoAI) {
-            if (isCmd2 && !m.isGroup) {
-                console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`))
-            } else if (isCmd2 && m.isGroup) {
-                console.log(chalk.black(chalk.bgWhite('[ LOGS ]')), color(argsLog, 'turquoise'), chalk.magenta('From'), chalk.green(pushname), chalk.yellow(`[ ${m.sender.replace('@s.whatsapp.net', '')} ]`), chalk.blueBright('IN'), chalk.green(groupName))
-            }
-        }
-
-
-
-
+        // Default to no activity logging. Opt-in logs contain only a
+        // recognized command and group flag; no messages or phone numbers.
+        logBotActivity({ command, isGroup: m.isGroup, autoAI: setting.autoAI });
 
         if (setting.autoAI) {
             if (budy) {
@@ -92,8 +63,7 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                     });
                     m.reply(`${response.data.choices[0].text}\n\n`)
                 } catch (err) {
-                    console.log(err)
-                    m.reply('I am getting API Update right now. Please hold on anc check back in a while.')
+                    replyAiError(m.reply, err)
                 }
             }
         }
@@ -121,31 +91,21 @@ module.exports = sansekai = async (client, m, chatUpdate, store) => {
                             });
                             m.reply(`${response.data.choices[0].text}\n\n`)
                         } catch (err) {
-                            console.log(err)
-                            m.reply('Maaf, sepertinya ada yang error')
+                            replyAiError(m.reply, err, { language: 'id' })
                         }
                         break
                     default: {
-
-                        if (isCmd2 && budy.toLowerCase() != undefined) {
-                            if (m.chat.endsWith('broadcast')) return
-                            if (m.isBaileys) return
-                            if (!(budy.toLowerCase())) return
-                            if (argsLog || isCmd2 && !m.isGroup) {
-                                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                                console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
-                            } else if (argsLog || isCmd2 && m.isGroup) {
-                                // client.sendReadReceipt(m.chat, m.sender, [m.key.id])
-                                console.log(chalk.black(chalk.bgRed('[ ERROR ]')), color('command', 'turquoise'), color(argsLog, 'turquoise'), color('tidak tersedia', 'turquoise'))
-                            }
-                        }
+                        // Unknown commands are user input: never log their
+                        // text or the sender's private identifier.
+                        break
                     }
                 }
             }
         }
 
     } catch (err) {
-        m.reply(util.format(err))
+        // Raw exceptions can contain API credentials and chat text.
+        replyAiError(m.reply, err)
     }
 }
 

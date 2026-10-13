@@ -20,4 +20,5 @@ jobs:
       - run: node --check index.js
       - run: node --check sansekai.js
       - run: node --check config.js
+      - run: node --check privacy.js
       - run: node --test tests/*.test.js

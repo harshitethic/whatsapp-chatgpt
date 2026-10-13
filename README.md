@@ -27,6 +27,7 @@ Variables:
 | `OPENAI_API_KEY` | API key; overrides any local JSON key |
 | `BOT_NAME` | Display name for bot replies |
 | `AUTO_AI` | true/false (or 1/0); overrides the local JSON setting |
+| `BOT_DIAGNOSTICS` | Optional true for redacted activity metadata, disabled by default |
 
 If you choose the local legacy JSON format, copy `accesser.example.json` to `accesser.json` and edit **only your local, ignored copy**. Never commit credentials, WhatsApp session credentials, QR data, or chat logs.
 
@@ -35,7 +36,8 @@ If you choose the local legacy JSON format, copy `accesser.example.json` to `acc
 - `index.js`: WhatsApp/Baileys session entry point.
 - `sansekai.js`: message and OpenAI integration handlers (legacy SDK).
 - `config.js`: safe configuration resolution, with environment precedence.
-- `tests/config.test.js`: standard-library tests for config handling.
+- `privacy.js`: safe error replies, status-only error logs, opt-in privacy-preserving diagnostics.
+- `tests/*.test.js`: standard-library tests for config and privacy boundaries.
 
 ## Quality checks
 
@@ -43,6 +45,7 @@ If you choose the local legacy JSON format, copy `accesser.example.json` to `acc
 node --check index.js
 node --check sansekai.js
 node --check config.js
+node --check privacy.js
 node --test tests/*.test.js
 ```
 
